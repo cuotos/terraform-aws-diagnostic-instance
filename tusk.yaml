@@ -1,0 +1,3 @@
+tasks:
+  docs:
+    run: terraform-docs markdown --output-mode inject --output-file README.md .
