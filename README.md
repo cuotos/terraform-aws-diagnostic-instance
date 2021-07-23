@@ -16,6 +16,40 @@ locations = {
 }
 ```
 
+And example workflow might look like
+```
+# given a variables.tfvars file with the following contents.
+locations = {
+  test-vpc-private-subnet = {
+    vpc_id = "vpc-123456"
+    subnet_id = "subnet-111"
+  },
+  test-vpc-public-subnet = {
+    vpc_id = "vpc-123456
+    subnet_id = "subnet-222"
+  }
+}
+
+# create the tf workspaces
+$ terraform workspace create test-vpc-private-subnet
+$ terraform workspace create test-vpc-public-subnet
+
+$ terraform workspace select test-vpc-private-subnet
+
+# creates the instance in the first location (subnet-111)
+$ terraform apply -var-file variables.tfvars 
+
+$ terraform workspace select test-vpc-public-subnet
+
+# this will create another instance in subnet-222, with its TF state completely independent from the first.
+$ terraform apply -var-file variables.tfvars 
+
+# cleanup
+$ terraform destroy -var-file variables.tfvars
+$ terraform workspace select test-vpc-private-subnet
+$ terraform destroy -var-file variables.tfvars
+```
+
 ## Switching Workspaces
 
 > These are local Terraform Workspaces NOT Terraform Cloud workspaces.
