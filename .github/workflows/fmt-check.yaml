@@ -1,0 +1,12 @@
+on: ["pull_request"]
+
+jobs:
+  tf-fmt:
+    name: tf-fmt
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v2
+      - uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: ~1.0
+      - run: terraform fmt -check -recursive
