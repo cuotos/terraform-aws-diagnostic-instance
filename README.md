@@ -74,19 +74,20 @@ SSM requires access to AWS APIs in order to work. This requires the server being
 
 # Terraform Docs
 The following is auto created by the `terraform-docs` command. Do not edit them manually in the README.
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~>1.0.0 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 3.29.1 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 3.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.29.1 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.56.0 |
 
 ## Modules
 
@@ -102,12 +103,13 @@ No modules.
 | [aws_security_group.security_group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_iam_policy_document.assume_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_associate_public_ip_address"></a> [associate\_public\_ip\_address](#input\_associate\_public\_ip\_address) | n/a | `bool` | `false` | no |
+| <a name="input_associate_public_ip_address"></a> [associate\_public\_ip\_address](#input\_associate\_public\_ip\_address) | If running in a public subnet a public IP is required in order to communicate out to AWS SSM APIs, if runnnig in private subnet public IP doesnt harm, but NAT gateway will be used to talk to AWS | `bool` | `true` | no |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | n/a | `string` | `"t3.nano"` | no |
 | <a name="input_locations"></a> [locations](#input\_locations) | A map of workspace name to object, where the object contains the VPC and Subnet ids to create the instance in. | <pre>map(object({<br>    vpc_id    = string<br>    subnet_id = string<br>  }))</pre> | n/a | yes |
 

@@ -10,6 +10,8 @@ variable "locations" {
 }
 
 variable "associate_public_ip_address" {
+  type = bool
+  description = "If running in a public subnet a public IP is required in order to communicate out to AWS SSM APIs, if runnnig in private subnet public IP doesnt harm, but NAT gateway will be used to talk to AWS" 
   default = true
 }
 
@@ -25,9 +27,9 @@ locals {
   instance = {
     type      = "t3.nano"
     disk_size = 10
-    ami = {
-      eu-west-1    = "ami-096f43ef67d75e998"
-      eu-central-1 = "ami-02f9ea74050d6f812"
+    ami = { // amazon linux 2
+      eu-west-1    = "ami-096f43ef67d75e998" // Ireland
+      eu-central-1 = "ami-02f9ea74050d6f812" // Frankfurt
     }
     subnet_id = var.locations[terraform.workspace].subnet_id
   }
@@ -39,7 +41,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 3.29.1"
+      version = "~> 3.0"
     }
   }
 }
@@ -61,7 +63,9 @@ resource "aws_iam_role" "role" {
     "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
     "arn:aws:iam::aws:policy/SecretsManagerReadWrite",
   ]
-  tags = {}
+  tags = {
+    "tf-workspace" : "${local.username}-${terraform.workspace}"
+  }
 }
 
 # Link Role to an Instance Profile (this is how the role is passed to a server)
@@ -82,6 +86,7 @@ resource "aws_instance" "instance" {
   ]
   tags = {
     "Name" : "${local.username}-${terraform.workspace}-workspace-tmp-instance",
+    "tf-workspace" : "${local.username}-${terraform.workspace}"
   }
   volume_tags = {}
   root_block_device {
@@ -100,7 +105,9 @@ resource "aws_security_group" "security_group" {
     protocol    = "-1"
     to_port     = 0
   }
-  tags = {}
+  tags = {
+    "tf-workspace" : "${local.username}-${terraform.workspace}"
+  }
 }
 
 data "aws_iam_policy_document" "assume_policy" {
