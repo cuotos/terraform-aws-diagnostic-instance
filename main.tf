@@ -10,7 +10,7 @@ variable "locations" {
 }
 
 variable "associate_public_ip_address" {
-  default = false
+  default = true
 }
 
 variable "instance_type" {
@@ -25,7 +25,10 @@ locals {
   instance = {
     type      = "t3.nano"
     disk_size = 10
-    ami       = "ami-096f43ef67d75e998"
+    ami = {
+      eu-west-1    = "ami-096f43ef67d75e998"
+      eu-central-1 = "ami-02f9ea74050d6f812"
+    }
     subnet_id = var.locations[terraform.workspace].subnet_id
   }
 }
@@ -41,11 +44,10 @@ terraform {
   }
 }
 
-provider "aws" {
-  region = "eu-west-1"
-}
+provider "aws" {}
 
 data "aws_caller_identity" "current" {}
+data "aws_region" "current" {}
 
 # MAIN TF
 
@@ -70,7 +72,7 @@ resource "aws_iam_instance_profile" "profile" {
 # Create the EC2 compute server
 resource "aws_instance" "instance" {
   instance_type               = local.instance.type
-  ami                         = local.instance.ami
+  ami                         = local.instance.ami[data.aws_region.current.name]
   user_data                   = filebase64("user_data.sh")
   iam_instance_profile        = aws_iam_instance_profile.profile.id
   subnet_id                   = local.instance.subnet_id
