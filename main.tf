@@ -26,7 +26,7 @@ module "diagnostic-instance" {
 
   vpc_id    = var.locations[terraform.workspace].vpc_id
   subnet_id = var.locations[terraform.workspace].subnet_id
-  
+
   additional_role_policies = [
     "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess",
     "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
