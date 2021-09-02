@@ -66,7 +66,7 @@ $ terraform destroy -var-file variables.tfvars
 ## Connecting to a created Server
 
 Make sure you are using the correct Workspace as the instance id is retrieved from the TF state.
-`aws ssm start-session $(terraform output instance_id | jq -r)`
+`aws ssm start-session --target $(terraform output instance_id | jq -r)`
 
 ## Starting a service in an _air gapped_ private Subnet
 
@@ -78,16 +78,13 @@ The following is auto created by the `terraform-docs` command. Do not edit them 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
-| Name | Version |
-|------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~>1.0.0 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 3.0 |
+No requirements.
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.56.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
 
 ## Modules
 
@@ -101,6 +98,7 @@ No modules.
 | [aws_iam_role.role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_instance.instance](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance) | resource |
 | [aws_security_group.security_group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
+| [aws_ami.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ami) | data source |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_iam_policy_document.assume_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
@@ -109,13 +107,18 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_associate_public_ip_address"></a> [associate\_public\_ip\_address](#input\_associate\_public\_ip\_address) | If running in a public subnet a public IP is required in order to communicate out to AWS SSM APIs, if runnnig in private subnet public IP doesnt harm, but NAT gateway will be used to talk to AWS | `bool` | `true` | no |
-| <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | n/a | `string` | `"t3.nano"` | no |
-| <a name="input_locations"></a> [locations](#input\_locations) | A map of workspace name to object, where the object contains the VPC and Subnet ids to create the instance in. | <pre>map(object({<br>    vpc_id    = string<br>    subnet_id = string<br>  }))</pre> | n/a | yes |
+| <a name="input_subnet_id"></a> [subnet\_id](#input\_subnet\_id) | Subnet to create the instance in | `string` | n/a | yes |
+| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | VPC to create the test instance in | `string` | n/a | yes |
+| <a name="input_ami"></a> [ami](#input\_ami) | Specify an AMI to run, if not it will use the latest Amazon Linux, or Windows Server image. | `string` | `null` | no |
+| <a name="input_associate_public_ip_address"></a> [associate\_public\_ip\_address](#input\_associate\_public\_ip\_address) | Assign public IP to the instance. | `bool` | `true` | no |
+| <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | AWS instance type to create | `string` | `"t3.nano"` | no |
+| <a name="input_key_name"></a> [key\_name](#input\_key\_name) | SSH key pair to use | `string` | `null` | no |
+| <a name="input_use_windows_ami"></a> [use\_windows\_ami](#input\_use\_windows\_ami) | Do you want to run a Windows server?... whyyy? | `bool` | `false` | no |
+| <a name="input_volume_size"></a> [volume\_size](#input\_volume\_size) | Root volume size of instance | `number` | `10` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_instance_id"></a> [instance\_id](#output\_instance\_id) | n/a |
+| <a name="output_instance_id"></a> [instance\_id](#output\_instance\_id) | ID of the instance that has been created. Can be used in SSM Start session command with `$(terraform output instance_id|jq -r)` |
 <!-- END_TF_DOCS -->
