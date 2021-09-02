@@ -45,7 +45,7 @@ variable "key_name" {
 }
 
 variable "additional_role_policies" {
-  type = list(string)
+  type        = list(string)
   description = "Additional Policies to attach to the instance in additional to SSM"
-  default = []
+  default     = []
 }

@@ -126,5 +126,5 @@ output "instance_id" {
 
 output "ami" {
   description = "ID of the AMI that has been selected."
-  value = data.aws_ami.this
+  value       = data.aws_ami.this
 }
