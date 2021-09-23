@@ -26,7 +26,7 @@ variable "subnet_id" {
   description = "Subnet to create the instance in"
 }
 
-variable "use_windows_ami" {
+variable "windows" {
   type        = bool
   description = "Do you want to run a Windows server?... whyyy?"
   default     = false
