@@ -107,18 +107,20 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_subnet_id"></a> [subnet\_id](#input\_subnet\_id) | Subnet to create the instance in | `string` | n/a | yes |
-| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | VPC to create the test instance in | `string` | n/a | yes |
+| <a name="input_additional_role_policies"></a> [additional\_role\_policies](#input\_additional\_role\_policies) | Additional Policies to attach to the instance in additional to SSM | `list(string)` | `[]` | no |
 | <a name="input_ami"></a> [ami](#input\_ami) | Specify an AMI to run, if not it will use the latest Amazon Linux, or Windows Server image. | `string` | `null` | no |
 | <a name="input_associate_public_ip_address"></a> [associate\_public\_ip\_address](#input\_associate\_public\_ip\_address) | Assign public IP to the instance. | `bool` | `true` | no |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | AWS instance type to create | `string` | `"t3.nano"` | no |
 | <a name="input_key_name"></a> [key\_name](#input\_key\_name) | SSH key pair to use | `string` | `null` | no |
-| <a name="input_use_windows_ami"></a> [use\_windows\_ami](#input\_use\_windows\_ami) | Do you want to run a Windows server?... whyyy? | `bool` | `false` | no |
+| <a name="input_subnet_id"></a> [subnet\_id](#input\_subnet\_id) | Subnet to create the instance in | `string` | n/a | yes |
 | <a name="input_volume_size"></a> [volume\_size](#input\_volume\_size) | Root volume size of instance | `number` | `10` | no |
+| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | VPC to create the test instance in | `string` | n/a | yes |
+| <a name="input_windows"></a> [windows](#input\_windows) | Do you want to run a Windows server?... whyyy? | `bool` | `false` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_instance_id"></a> [instance\_id](#output\_instance\_id) | ID of the instance that has been created. Can be used in SSM Start session command with `$(terraform output instance_id|jq -r)` |
+| <a name="output_ami"></a> [ami](#output\_ami) | ID of the AMI that has been selected. |
+| <a name="output_instance_id"></a> [instance\_id](#output\_instance\_id) | ID of the instance that has been created. Can be used in SSM Start session command with `$(terraform output instance_id\|jq -r)` |
 <!-- END_TF_DOCS -->

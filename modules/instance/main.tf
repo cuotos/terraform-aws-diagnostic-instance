@@ -34,7 +34,7 @@ data "aws_ami" "this" {
 
   # windows
   dynamic "filter" {
-    for_each = var.use_windows_ami ? local.ami_filters.windows : {}
+    for_each = var.windows ? local.ami_filters.windows : {}
 
     content {
       name   = filter.key
@@ -44,7 +44,7 @@ data "aws_ami" "this" {
 
   # linux
   dynamic "filter" {
-    for_each = !var.use_windows_ami ? local.ami_filters.linux : {}
+    for_each = !var.windows ? local.ami_filters.linux : {}
 
     content {
       name   = filter.key
@@ -120,7 +120,7 @@ data "aws_iam_policy_document" "assume_policy" {
 }
 
 output "instance_id" {
-  description = "ID of the instance that has been created. Can be used in SSM Start session command with `$(terraform output instance_id|jq -r)`"
+  description = "ID of the instance that has been created. Can be used in SSM Start session command with `$(terraform output instance_id\\|jq -r)`"
   value       = aws_instance.instance.id
 }
 
