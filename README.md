@@ -1,90 +1,35 @@
-Create a simple test ec2 instance in VPC/Subnet of your choice, with SSM enabled so you can get a shell on it without opening SSH.
+Create a simple ec2 instance in VPC/Subnet of your choice, with SSM enabled so you can get a shell on it without opening SSH.
 This can be used to test connectivity between AWS locations.
 It runs a simple [user_data.sh](user_data.sh) script that will install some common tools (docker) and login to the ECR registry of the AWS account.
 
-The only required variables are the `locations` which is a map of the workspace name and a VPC and Subnet to create the instance in. See the [example variables file](example-vars.tfvars).
-This uses Workspaces so that you can create mulitple instances and not overwrite each other.
+The only required variables are the `vpc_id` and `subnet_id` where you want to creat the instance.
 
-## The _Locations var_
-
-```
-locations = {
-  workspace-name = {
-    vpc_id = "vpc-xxxxxx"
-    subnet_id = "subnet-xxxxxx"
-  }
-}
-```
-
-And example workflow might look like
-```
-# given a variables.tfvars file with the following contents.
-locations = {
-  test-vpc-private-subnet = {
-    vpc_id = "vpc-123456"
-    subnet_id = "subnet-111"
-  },
-  test-vpc-public-subnet = {
-    vpc_id = "vpc-123456
-    subnet_id = "subnet-222"
-  }
-}
-
-# create the tf workspaces
-$ terraform workspace create test-vpc-private-subnet
-$ terraform workspace create test-vpc-public-subnet
-
-$ terraform workspace select test-vpc-private-subnet
-
-# creates the instance in the first location (subnet-111)
-$ terraform apply -var-file variables.tfvars 
-
-$ terraform workspace select test-vpc-public-subnet
-
-# this will create another instance in subnet-222, with its TF state completely independent from the first.
-$ terraform apply -var-file variables.tfvars 
-
-# cleanup
-$ terraform destroy -var-file variables.tfvars
-$ terraform workspace select test-vpc-private-subnet
-$ terraform destroy -var-file variables.tfvars
-```
-
-## Switching Workspaces
-
-> These are local Terraform Workspaces NOT Terraform Cloud workspaces.
-> https://www.terraform.io/docs/language/state/workspaces.html
-
-`terraform workspace list` - show the workspaces that exist. _Default_ will ALWAYS exists, if you have never changed a workspace before this is what Terraform will be using.
-
-`terraform workspace new vpc_one` - this will create a new local workspace called "vpc_one". If you have a Location key calls "vpc_one" then its associated VPC and Subnet IDs will be used.
-
-`terraform workspace select xxx` - switch workspaces, this will use a new local state file and not effect any others.
-
-`terraform apply -var-file variables.tfvars`
-
+> The instance MUST have access to AWS Apis for SSM to work. This can be via a IGW (public IP on instance, or via VPC-Endpoints, see [Starting a service in an air gapped private Subnet](#starting-a-service-in-an-air-gapped-private-subnet))
 ## Connecting to a created Server
 
-Make sure you are using the correct Workspace as the instance id is retrieved from the TF state.
+You can get the instance id from Terraform and pass it straight into AWS CLI. Note the `jq -r` which removes the quotes from the instance_id as AWS CLI fails if they are present. 
+
 `aws ssm start-session --target $(terraform output instance_id | jq -r)`
 
 ## Starting a service in an _air gapped_ private Subnet
 
-SSM requires access to AWS APIs in order to work. This requires the server being placed in a Subnet that has outbound internet access. This can be either a public Subnet or private with a NAT-Gateway, or in a Subnet that has VPC Endpoints configured for `ssmmessages`, `ssm`, and `ec2messages`
+SSM requires access to AWS APIs in order to work. This requires the server being placed in a Subnet that has outbound internet access. This can be either a public subnet using an Internet Gateway and public IP assigned to the instance, a private subnet with a NAT-Gateway, or in a subnet that has [VPC Endpoints](https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints.html) configured for `ssmmessages`, `ssm`, and `ec2messages`
 
 # Terraform Docs
-The following is auto created by the `terraform-docs` command. Do not edit them manually in the README.
+The following is text auto created by the `terraform-docs` command. Any edits to the following will be overwritten.
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 3.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 3.0 |
 
 ## Modules
 

@@ -1,5 +1,0 @@
-**/.terraform/*
-*.tfstate
-*.tfstate.*
-variables.auto.tfvars
-README.md.bk
