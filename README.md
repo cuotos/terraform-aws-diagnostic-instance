@@ -53,10 +53,10 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_additional_role_policies"></a> [additional\_role\_policies](#input\_additional\_role\_policies) | Additional Policies to attach to the instance in additional to SSM | `list(string)` | `[]` | no |
-| <a name="input_ami"></a> [ami](#input\_ami) | Specify an AMI to run, if not it will use the latest Amazon Linux, or Windows Server image. | `string` | `null` | no |
+| <a name="input_ami"></a> [ami](#input\_ami) | Specify an AMI to run, if not it will use the latest Amazon Linux, or Windows Server image. | `string` | `""` | no |
 | <a name="input_associate_public_ip_address"></a> [associate\_public\_ip\_address](#input\_associate\_public\_ip\_address) | Assign public IP to the instance. | `bool` | `true` | no |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | AWS instance type to create | `string` | `"t3.nano"` | no |
-| <a name="input_key_name"></a> [key\_name](#input\_key\_name) | SSH key pair to use | `string` | `null` | no |
+| <a name="input_key_name"></a> [key\_name](#input\_key\_name) | SSH key pair to use | `string` | `""` | no |
 | <a name="input_subnet_id"></a> [subnet\_id](#input\_subnet\_id) | Subnet to create the instance in | `string` | n/a | yes |
 | <a name="input_volume_size"></a> [volume\_size](#input\_volume\_size) | Root volume size of instance | `number` | `10` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | VPC to create the test instance in | `string` | n/a | yes |

@@ -82,9 +82,9 @@ resource "aws_iam_instance_profile" "profile" {
 
 # Create the EC2 compute server
 resource "aws_instance" "instance" {
-  key_name                    = var.key_name != null ? var.key_name : null
+  key_name                    = var.key_name != "" ? var.key_name : null
   instance_type               = var.instance_type
-  ami                         = var.ami != null ? var.ami : data.aws_ami.this.image_id
+  ami                         = var.ami != "" ? var.ami : data.aws_ami.this.image_id
   user_data                   = filebase64("${path.module}/user_data.sh")
   iam_instance_profile        = aws_iam_instance_profile.profile.id
   subnet_id                   = var.subnet_id
