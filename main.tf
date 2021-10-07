@@ -89,9 +89,10 @@ resource "aws_instance" "instance" {
   iam_instance_profile        = aws_iam_instance_profile.profile.id
   subnet_id                   = var.subnet_id
   associate_public_ip_address = var.associate_public_ip_address
-  vpc_security_group_ids = [
-    aws_security_group.security_group.id
-  ]
+  vpc_security_group_ids = concat(
+    var.additional_security_groups,
+    [aws_security_group.security_group.id]
+  )
   tags = {
     "Name" : "${local.username}-${terraform.workspace}-workspace-tmp-instance",
     "tf-workspace" : "${local.username}-${terraform.workspace}"

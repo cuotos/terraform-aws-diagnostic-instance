@@ -53,3 +53,9 @@ variable "additional_role_policies" {
   description = "Additional Policies to attach to the instance in additional to SSM"
   default     = []
 }
+
+variable "additional_security_groups" {
+  type = list(string)
+  description = "Addition security groups to assign to the instance"
+  default = []
+}
