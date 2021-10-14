@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     aws = {
-      source = "hashicorp/aws"
+      source  = "hashicorp/aws"
       version = "~> 3.0"
     }
   }
@@ -53,7 +53,7 @@ data "aws_ami" "this" {
 
   # linux
   dynamic "filter" {
-    for_each = !var.windows ? local.ami_filters.linux : {}
+    for_each = ! var.windows ? local.ami_filters.linux : {}
 
     content {
       name   = filter.key
@@ -67,7 +67,10 @@ resource "aws_iam_role" "role" {
   name               = "${local.username}-${terraform.workspace}-workspace-tmp-instance"
   assume_role_policy = data.aws_iam_policy_document.assume_policy.json
   managed_policy_arns = concat(
-    ["arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"],
+    [
+      "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
+      "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+    ],
     var.additional_role_policies
   )
   tags = {

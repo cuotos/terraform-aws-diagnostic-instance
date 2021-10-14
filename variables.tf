@@ -55,7 +55,7 @@ variable "additional_role_policies" {
 }
 
 variable "additional_security_groups" {
-  type = list(string)
+  type        = list(string)
   description = "Addition security groups to assign to the instance"
-  default = []
+  default     = []
 }
