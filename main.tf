@@ -53,7 +53,7 @@ data "aws_ami" "this" {
 
   # linux
   dynamic "filter" {
-    for_each = ! var.windows ? local.ami_filters.linux : {}
+    for_each = !var.windows ? local.ami_filters.linux : {}
 
     content {
       name   = filter.key
@@ -140,4 +140,9 @@ output "instance_id" {
 output "ami" {
   description = "ID of the AMI that has been selected."
   value       = data.aws_ami.this
+}
+
+output "security_group" {
+  description = "The security group created for instance. Can be used to add additional rules"
+  value       = aws_security_group.security_group
 }
