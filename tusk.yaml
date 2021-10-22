@@ -2,3 +2,7 @@ tasks:
   docs:
     # inject TF doc between <!-- BEGIN_TF_DOCS --> and <!-- END_TF_DOCS -->
     run: terraform-docs markdown --output-mode inject --output-file README.md .
+  svu:
+    run: svu --strip-prefix
+  tag:
+    run: git tag $(svu --strip-prefix)

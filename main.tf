@@ -25,6 +25,16 @@ locals {
       "name" : "amzn2-ami-hvm-2.0*"
     }
   }
+  common_tags = {
+    "tf-workspace" : terraform.workspace
+    "creator" : local.username
+    "created" : timestamp()
+  }
+}
+
+resource "random_string" "module_suffix" {
+  length  = 4
+  special = false
 }
 
 data "aws_ami" "this" {
@@ -64,7 +74,7 @@ data "aws_ami" "this" {
 
 # Role for server
 resource "aws_iam_role" "role" {
-  name               = "${local.username}-${terraform.workspace}-workspace-tmp-instance"
+  name               = "${local.username}-tmp-instance-${random_string.module_suffix.result}"
   assume_role_policy = data.aws_iam_policy_document.assume_policy.json
   managed_policy_arns = concat(
     [
@@ -73,8 +83,13 @@ resource "aws_iam_role" "role" {
     ],
     var.additional_role_policies
   )
-  tags = {
-    "tf-workspace" : "${local.username}-${terraform.workspace}"
+
+  tags = merge(local.common_tags)
+
+  lifecycle {
+    ignore_changes = [
+      tags["created"]
+    ]
   }
 }
 
@@ -96,19 +111,27 @@ resource "aws_instance" "instance" {
     var.additional_security_groups,
     [aws_security_group.security_group.id]
   )
-  tags = {
-    "Name" : "${local.username}-${terraform.workspace}-workspace-tmp-instance",
-    "tf-workspace" : "${local.username}-${terraform.workspace}"
-  }
+  tags = merge(
+    local.common_tags,
+    {
+      "Name" : "${local.username}-tmp-instance-${random_string.module_suffix.result}"
+    }
+  )
   volume_tags = {}
   root_block_device {
     volume_size = var.volume_size
+  }
+
+  lifecycle {
+    ignore_changes = [
+      tags["created"]
+    ]
   }
 }
 
 # Create a security group that allows access to internet to pull down yum dependencies
 resource "aws_security_group" "security_group" {
-  name        = "${local.username}-${terraform.workspace}-workspace-tmp-instance"
+  name        = "${local.username}-tmp-instance-${random_string.module_suffix.result}"
   description = "sg for the workspace instance"
   vpc_id      = var.vpc_id
   egress {
@@ -117,8 +140,13 @@ resource "aws_security_group" "security_group" {
     protocol    = "-1"
     to_port     = 0
   }
-  tags = {
-    "tf-workspace" : "${local.username}-${terraform.workspace}"
+
+  tags = merge(local.common_tags)
+  
+  lifecycle {
+    ignore_changes = [
+      tags["created"]
+    ]
   }
 }
 
