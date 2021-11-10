@@ -10,3 +10,16 @@ jobs:
         with:
           terraform_version: ~1.0
       - run: terraform fmt -check -recursive
+
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      - name: Render TF docs and push changes to PR
+        uses: terraform-docs/gh-actions@main
+        with:
+          working-dir: .
+          git-push: "true"
+
