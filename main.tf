@@ -63,7 +63,7 @@ data "aws_ami" "this" {
 
   # linux
   dynamic "filter" {
-    for_each = ! var.windows ? local.ami_filters.linux : {}
+    for_each = !var.windows ? local.ami_filters.linux : {}
 
     content {
       name   = filter.key

@@ -10,3 +10,15 @@ jobs:
         with:
           terraform_version: ~1.0
       - run: terraform fmt -check -recursive
+
+  tf-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      - name: Render TF docs and push changes to PR
+        uses: terraform-docs/gh-actions@main
+        with:
+          output-file: README.md # The action doesn't appear to read this from the config file
+          git-push: "true"
