@@ -16,7 +16,9 @@ You can get the instance id from Terraform and pass it straight into AWS CLI. No
 SSM requires access to AWS APIs in order to work. This requires the server being placed in a Subnet that has outbound internet access. This can be either a public subnet using an Internet Gateway and public IP assigned to the instance, a private subnet with a NAT-Gateway, or in a subnet that has [VPC Endpoints](https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints.html) configured for `ssmmessages`, `ssm`, and `ec2messages`
 
 # Terraform Docs
-The following is text auto created by the `terraform-docs` command. Any edits to the following will be overwritten.
+
+In order to populate the following Terraform documentation, run the `terraform-docs .` command.
+The .terraform-docs.yml file contains the configuration to make sure if gets created in the correct way.
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
