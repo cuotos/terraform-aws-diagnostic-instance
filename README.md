@@ -74,5 +74,4 @@ No modules.
 | <a name="output_ami"></a> [ami](#output\_ami) | ID of the AMI that has been selected. |
 | <a name="output_instance_id"></a> [instance\_id](#output\_instance\_id) | ID of the instance that has been created. Can be used in SSM Start session command with `$(terraform output instance_id\|jq -r)` |
 | <a name="output_security_group"></a> [security\_group](#output\_security\_group) | The security group created for instance. Can be used to add additional rules |
-| <a name="output_test"></a> [test](#output\_test) | n/a |
 <!-- END_TF_DOCS -->
