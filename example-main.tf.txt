@@ -22,8 +22,8 @@ terraform {
 
 # MAIN TF
 module "diagnostic-instance" {
-  source = "app.terraform.io/cuotos/diagnostic-instance"
-  version = "0.0.1"
+  source = "cuotos/diagnostic-instance/aws"
+  version = "~>0.2.0"
 
   vpc_id    = var.locations[terraform.workspace].vpc_id
   subnet_id = var.locations[terraform.workspace].subnet_id
