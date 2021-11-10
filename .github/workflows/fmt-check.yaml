@@ -20,8 +20,5 @@ jobs:
       - name: Render TF docs and push changes to PR
         uses: terraform-docs/gh-actions@main
         with:
-          working-dir: .
-          output-file: README.md
-          output-method: inject
-          git-push: "true"
-
+          config-file: .terraform-docs.yml
+          fail-on-diff: true
