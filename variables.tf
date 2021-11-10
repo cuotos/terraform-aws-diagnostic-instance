@@ -59,7 +59,3 @@ variable "additional_security_groups" {
   description = "Addition security groups to assign to the instance"
   default     = []
 }
-
-variable "test_var" {
-  type = string
-}
