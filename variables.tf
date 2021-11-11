@@ -59,3 +59,9 @@ variable "additional_security_groups" {
   description = "Addition security groups to assign to the instance"
   default     = []
 }
+
+variable "comment" {
+  type        = string
+  description = "Comment tag to add to all resources"
+  default     = ""
+}
