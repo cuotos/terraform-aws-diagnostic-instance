@@ -28,7 +28,7 @@ locals {
   common_tags = {
     "tf-workspace" : terraform.workspace
     "creator" : local.username
-    "created" : timestamp()
+    "comment" : var.comment != "" ? var.comment : null
   }
 }
 
