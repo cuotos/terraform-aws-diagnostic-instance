@@ -25,11 +25,12 @@ locals {
       "name" : "amzn2-ami-hvm-2.0*"
     }
   }
-  common_tags = {
+  common_tags = merge({
     "tf-workspace" : terraform.workspace
     "creator" : local.username
     "comment" : var.comment != "" ? var.comment : null
-  }
+    },
+  var.additional_tags)
 }
 
 resource "random_string" "module_suffix" {
