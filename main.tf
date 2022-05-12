@@ -11,7 +11,7 @@ data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
 
 locals {
-  username = lower(regex(".+:(?P<username>.*)", data.aws_caller_identity.current.user_id).username)
+  username = lower(regex(".+[:/](?P<username>.*)", data.aws_caller_identity.current.arn).username)
   ami_filters = {
     common = {
       "root-device-type" : "ebs",
