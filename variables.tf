@@ -65,3 +65,9 @@ variable "comment" {
   description = "Comment tag to add to all resources"
   default     = ""
 }
+
+variable "additional_tags" {
+  type        = map(string)
+  description = "Map of tags to add to all resources"
+  default     = {}
+}
