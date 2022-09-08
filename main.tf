@@ -127,6 +127,7 @@ resource "aws_instance" "instance" {
     ignore_changes = [
       tags["created"]
     ]
+    create_before_destroy = true
   }
 }
 
