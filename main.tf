@@ -99,12 +99,19 @@ resource "aws_iam_instance_profile" "profile" {
   role = aws_iam_role.role.name
 }
 
+data "template_file" "user_data" {
+  template = file("${path.module}/user_data.sh")
+  vars = {
+    additional_user_data = var.additional_user_data != null ? var.additional_user_data : ""
+  }
+}
+
 # Create the EC2 compute server
 resource "aws_instance" "instance" {
   key_name                    = var.key_name != "" ? var.key_name : null
   instance_type               = var.instance_type
   ami                         = var.ami != "" ? var.ami : data.aws_ami.this.image_id
-  user_data                   = filebase64("${path.module}/user_data.sh")
+  user_data                   = data.template_file.user_data.rendered
   iam_instance_profile        = aws_iam_instance_profile.profile.id
   subnet_id                   = var.subnet_id
   associate_public_ip_address = var.associate_public_ip_address

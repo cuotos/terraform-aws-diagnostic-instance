@@ -71,3 +71,9 @@ variable "additional_tags" {
   description = "Map of tags to add to all resources"
   default     = {}
 }
+
+variable "additional_user_data" {
+  type        = string
+  description = "Additional code to be added to the user_data.sh script"
+  default     = null
+}

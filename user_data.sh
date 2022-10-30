@@ -17,4 +17,6 @@ chmod +x /usr/local/bin/docker-compose
 
 # Login to ECR
 AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
-aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.eu-west-1.amazonaws.com
+aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin $${AWS_ACCOUNT_ID}.dkr.ecr.eu-west-1.amazonaws.com
+
+${additional_user_data}
