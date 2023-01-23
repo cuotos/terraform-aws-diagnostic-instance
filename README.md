@@ -25,13 +25,13 @@ The .terraform-docs.yml file contains the configuration to make sure if gets cre
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 3.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 4.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 3.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 4.0 |
 | <a name="provider_random"></a> [random](#provider\_random) | n/a |
 | <a name="provider_template"></a> [template](#provider\_template) | n/a |
 
@@ -77,6 +77,7 @@ No modules.
 | Name | Description |
 |------|-------------|
 | <a name="output_ami"></a> [ami](#output\_ami) | ID of the AMI that has been selected. |
+| <a name="output_instance"></a> [instance](#output\_instance) | The created instance, allowing use of any of the attributes of the aws\_instance resourfce |
 | <a name="output_instance_id"></a> [instance\_id](#output\_instance\_id) | ID of the instance that has been created. Can be used in SSM Start session command with `$(terraform output instance_id\|jq -r)` |
 | <a name="output_instance_role"></a> [instance\_role](#output\_instance\_role) | The IAM role assigned to the instance |
 | <a name="output_security_group"></a> [security\_group](#output\_security\_group) | The security group created for instance. Can be used to add additional rules |

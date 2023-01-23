@@ -1,3 +1,8 @@
+output "instance" {
+  description = "The created instance, allowing use of any of the attributes of the aws_instance resourfce"
+  value       = aws_instance.instance
+}
+
 output "instance_id" {
   description = "ID of the instance that has been created. Can be used in SSM Start session command with `$(terraform output instance_id\\|jq -r)`"
   value       = aws_instance.instance.id
