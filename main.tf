@@ -122,7 +122,7 @@ resource "aws_instance" "instance" {
   tags = merge(
     local.common_tags,
     {
-      "Name" : "${local.username}-tmp-instance-${random_string.module_suffix.result}"
+      "Name" : var.instance_name_override != null ? "${var.instance_name_override}-${random_string.module_suffix.result}" : "${local.username}-tmp-instance-${random_string.module_suffix.result}"
     }
   )
   volume_tags = {}

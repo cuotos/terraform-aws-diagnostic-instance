@@ -72,6 +72,12 @@ variable "additional_tags" {
   default     = {}
 }
 
+variable "instance_name_override" {
+  type        = string
+  description = "Override the name tag provided to the instance. default: <username>-tmp-instance-<random string>"
+  default     = null
+}
+
 variable "additional_user_data" {
   type        = string
   description = "Additional code to be added to the user_data.sh script"
