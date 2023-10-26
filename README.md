@@ -7,9 +7,9 @@ The only required variables are the `vpc_id` and `subnet_id` where you want to c
 > The instance MUST have access to AWS Apis for SSM to work. This can be via a IGW (public IP on instance, or via VPC-Endpoints, see [Starting a service in an air gapped private Subnet](#starting-a-service-in-an-air-gapped-private-subnet))
 ## Connecting to a created Server
 
-You can get the instance id from Terraform and pass it straight into AWS CLI. Note the `jq -r` which removes the quotes from the instance_id as AWS CLI fails if they are present. 
+You can get the instance id from Terraform and pass it straight into AWS CLI. Note the `--raw` which removes the quotes from the instance_id as AWS CLI fails if they are present. 
 
-`aws ssm start-session --target $(terraform output instance_id | jq -r)`
+`aws ssm start-session --target $(terraform output --raw instance_id)`
 
 ## Starting a service in an _air gapped_ private Subnet
 
