@@ -83,3 +83,9 @@ variable "additional_user_data" {
   description = "Additional code to be added to the user_data.sh script"
   default     = null
 }
+
+variable "override_name" {
+  type        = string
+  description = "Override the name of the instance that is created."
+  default     = null
+}

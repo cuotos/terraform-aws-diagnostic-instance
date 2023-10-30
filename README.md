@@ -25,13 +25,13 @@ The .terraform-docs.yml file contains the configuration to make sure if gets cre
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 4.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 4.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.0 |
 | <a name="provider_random"></a> [random](#provider\_random) | n/a |
 | <a name="provider_template"></a> [template](#provider\_template) | n/a |
 
@@ -68,6 +68,7 @@ No modules.
 | <a name="input_instance_name_override"></a> [instance\_name\_override](#input\_instance\_name\_override) | Override the name tag provided to the instance. default: <username>-tmp-instance-<random string> | `string` | `null` | no |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | AWS instance type to create | `string` | `"t3.nano"` | no |
 | <a name="input_key_name"></a> [key\_name](#input\_key\_name) | SSH key pair to use | `string` | `""` | no |
+| <a name="input_override_name"></a> [override\_name](#input\_override\_name) | Override the name of the instance that is created. | `string` | `null` | no |
 | <a name="input_subnet_id"></a> [subnet\_id](#input\_subnet\_id) | Subnet to create the instance in | `string` | n/a | yes |
 | <a name="input_volume_size"></a> [volume\_size](#input\_volume\_size) | Root volume size of instance | `number` | `10` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | VPC to create the test instance in | `string` | n/a | yes |
