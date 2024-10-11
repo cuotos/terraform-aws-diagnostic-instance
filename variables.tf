@@ -89,3 +89,14 @@ variable "override_name" {
   description = "Override the name of the instance that is created."
   default     = null
 }
+
+variable "state" {
+  type        = string
+  description = "State of the instance. Valiue values are `running`, `stopped`"
+  default     = "running"
+
+  validation {
+    condition     = contains(["running", "stopped"], var.state)
+    error_message = "Valid values for var: state are (running, stopped)."
+  }
+}

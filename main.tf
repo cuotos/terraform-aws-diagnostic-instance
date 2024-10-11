@@ -138,6 +138,11 @@ resource "aws_instance" "instance" {
   }
 }
 
+resource "aws_ec2_instance_state" "instance" {
+  instance_id = aws_instance.id
+  state       = var.state
+}
+
 # Create a security group that allows access to internet to pull down yum dependencies
 resource "aws_security_group" "security_group" {
   name        = "${local.username}-tmp-instance-${random_string.module_suffix.result}"
