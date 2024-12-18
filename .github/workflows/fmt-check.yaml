@@ -21,4 +21,4 @@ jobs:
         uses: terraform-docs/gh-actions@main
         with:
           output-file: README.md # The action doesn't appear to read this from the config file
-          git-push: "true"
+          fail-on-diff: "true"
