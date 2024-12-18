@@ -1,3 +1,4 @@
+
 Create a simple ec2 instance in VPC/Subnet of your choice, with SSM enabled so you can get a shell on it without opening SSH.
 This can be used to test connectivity between AWS locations.
 It runs a simple [user_data.sh](user_data.sh) script that will install some common tools (docker) and login to the ECR registry of the AWS account.
