@@ -22,7 +22,8 @@ locals {
       "name" : "Windows_Server-2019-English-Full-Base*"
     }
     linux = {
-      "name" : "amzn2-ami-hvm-2.0*"
+      "name" : "al2023-ami-2023*",
+      "architecture" : "x86_64"
     }
   }
   user_data = templatefile("${path.module}/user_data.sh", {
@@ -34,6 +35,10 @@ locals {
     "comment" : var.comment != "" ? var.comment : null
     },
   var.additional_tags)
+  required_policies = [
+    "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
+    "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+  ]
 }
 
 resource "random_string" "module_suffix" {
@@ -76,17 +81,17 @@ data "aws_ami" "this" {
   }
 }
 
+resource "aws_iam_role_policy_attachment" "policies" {
+  for_each = { for i, val in concat(var.additional_role_policies, local.required_policies) : i => val }
+
+  role       = aws_iam_role.role.name
+  policy_arn = each.value
+}
+
 # Role for server
 resource "aws_iam_role" "role" {
   name               = "${local.username}-tmp-instance-${random_string.module_suffix.result}"
   assume_role_policy = data.aws_iam_policy_document.assume_policy.json
-  managed_policy_arns = concat(
-    [
-      "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
-      "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
-    ],
-    var.additional_role_policies
-  )
 
   tags = merge(local.common_tags)
 
