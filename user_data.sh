@@ -10,6 +10,7 @@ yum install -y \
 service docker start
 chkconfig docker on
 usermod -a -G docker ec2-user
+usermod -a -G docker ssm-user
 
 # install docker-compose
 curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
