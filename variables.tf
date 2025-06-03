@@ -81,7 +81,8 @@ variable "instance_name_override" {
 variable "additional_user_data" {
   type        = string
   description = "Additional code to be added to the user_data.sh script"
-  default     = null
+  # default must be "" and not null as you cannot pass null into the templatefile function
+  default     = ""
 }
 
 variable "override_name" {

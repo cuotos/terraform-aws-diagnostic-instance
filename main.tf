@@ -27,7 +27,7 @@ locals {
     }
   }
   user_data = templatefile("${path.module}/user_data.sh", {
-    additional_user_data = var.additional_user_data != null ? var.additional_user_data : ""
+    additional_user_data = var.additional_user_data
   })
   common_tags = merge({
     "tf-workspace" : terraform.workspace
