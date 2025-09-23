@@ -156,6 +156,13 @@ resource "aws_security_group" "security_group" {
     to_port     = 0
   }
 
+  egress {
+    cidr_blocks = ["::/0"]
+    from_port   = 0
+    protocol    = "-1"
+    to_port     = 0
+  }
+
   tags = merge(local.common_tags)
 
   lifecycle {
